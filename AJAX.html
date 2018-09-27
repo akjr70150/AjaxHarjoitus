@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Harjoitus 4 - AJAX</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <style>
+        body {
+            background: pink;
+        }
+        button {
+            height: 194px;
+            width: 300px;
+            background-image: url("https://0x0fff.com/wp-content/uploads/2015/09/unicorn-300x194.png");
+            display: none;
+        }
+        .search button {
+            display: inline-block;
+        }
+        .search {
+            background: deeppink;
+            display: inline-block;
+            padding: 10px;
+        }
+        h1 {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Kuvahaku (klikkaa yksisarvista tai paina enter)</h1>
+
+<div class="search">
+    <input id="input" type="text" placeholder="syötä hakusana" />
+    <button type="button" onclick="haeData()"></button>
+</div>
+<div class="kuva" id="kuvat"></div>
+
+
+<script>
+   onchange = function haeData () {
+       $(".kuva").empty();
+        $.getJSON('http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?', {
+            tags: $("#input").val(),
+            tagmode: "any",
+            format: "json"
+        }).done(function(data) {
+            console.dir(data);
+
+           for (var i = 0; i < data.items.length; i++) {
+               $('<img>').attr("src", data.items[i].media.m).appendTo('#kuvat');
+
+           }
+
+        });
+    }
+
+</script>
+
+
+</body>
+</html>
